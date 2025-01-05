@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+// 组件引用
+// @ts-ignore
+import { depthChart } from '@real2sport/depth-chart'
+
 const options = {}
 const symbolData = ref<any>({
   currentPrice: 3606.17, // 当前价格
