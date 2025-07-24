@@ -4,7 +4,7 @@ import { ref } from 'vue'
 // @ts-ignore
 import { depthChart } from '@real2sport/depth-chart'
 
-const options = {}
+const options = ref({ isRedUp: false })
 const symbolData = ref<any>({
   currentPrice: 3606.17, // 当前价格
   priceScale: 2, // 价格精度
@@ -14,6 +14,7 @@ const depthData = ref<any>({
   bids: [],
   asks: [],
 })
+const showChart = ref(true)
 const getMockData = () => {
   console.info('Start loading mock data')
   import('./mock/index.json').then((res) => {
@@ -28,7 +29,18 @@ getMockData()
 
 <template>
   <main>
-    <depthChart :options="options" :symbolData="symbolData" :depthData="depthData"></depthChart>
+    <div class="btns">
+      <button @click="showChart = !showChart">show/hide</button>
+      <button @click="options.isRedUp = !options.isRedUp">Color switch</button>
+    </div>
+    <div v-if="options.isRedUp">Model: Red Up/Green Down</div>
+    <div v-else>Model: Red Down/Green Up</div>
+    <depthChart
+      v-if="showChart"
+      :options="options"
+      :symbolData="symbolData"
+      :depthData="depthData"
+    ></depthChart>
   </main>
 </template>
 
@@ -36,5 +48,12 @@ getMockData()
 main {
   width: 100%;
   height: 30vh;
+  text-align: center;
+}
+.btns {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
 }
 </style>
